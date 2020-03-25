@@ -1,115 +1,123 @@
-# Preface {-}
+# Prefácio {-}
 
-Welcome to the second edition of _Advanced R_. I had three main goals for this edition:
+Bem-vindx à segunda edição de _R Avançado_. Eu tinha três objetivos principais para esta edição:
 
-* Improve coverage of important concepts that I fully understood only after
-  the publication of the first edition.
+* Melhorar a abrangência de conceitos importantes que só compreendi completamente após a publicação da primeira edição.
 
-* Reduce coverage of topics time has shown to be less useful, or that I think
-  are really exciting but turn out not to be that practical.
+* Reduzir a abrangência de tópicos que o tempo mostrou serem menos úteis, ou que acho realmente interessantes mas que não são tão práticos.
 
-* Generally make the material easier to understand with better text, clearer
-  code, and many more diagrams.
+* Tornar, de forma geral, o material mais fácil de entender ao ter um texto melhor escrito, códigos mais claros e muito mais diagramas.
 
-If you're familiar with the first edition, this preface describes the major changes so that you can focus your reading on the new areas. If you're reading a printed version of this book you'll notice one big change very quickly: _Advanced R_ is now in colour! This has considerably improved the syntax highlighting of code chunks, and made it much easier to create helpful diagrams. I have taken advantage of this and included over 100 new diagrams throughout the book.
+Se você estiver familiarizadx com a primeira edição, este prefácio descreve as principais mudanças para que você possa focar sua leitura nas novas áreas. Se você estiver lendo uma versão impressa deste livro (não disponível em Português - nota do tradutor), notará, prontamente, uma grande mudança: _R Avançado_ agora está em cores! Isso melhorou consideravelmente o destaque dado à sintaxe nos pedaços de código e facilitou muito a criação de diagramas mais didáticos. Tirei proveito disso e incluí mais de 100 novos diagramas ao longo do livro.
 
-Another big change in this version is the use of new packages, particularly [rlang](http://rlang.r-lib.org), which provides a clean interface to low-level data structures and operations. The first edition used base R functions almost exclusively, which created some pedagogical challenges because many functions evolved independently over multiple years, making it hard to see the big underlying ideas hidden amongst the incidental variations in function names and arguments. I continue to show base equivalents in sidebars, footnotes, and where needed, in individual sections, but if you want to see the purest base R expression of the ideas in this book, I recommend reading the first edition, which you can find online at <http://adv-r.had.co.nz>.
+Outra grande mudança nesta versão é o uso de novos pacotes. Particularmente, o [rlang](http://rlang.r-lib.org), que fornece uma interface limpa para operações e estruturas de dados de baixo nível. A primeira edição usou, quase exclusivamente, funções básicas do R (chamadas de base-R), o que criou alguns desafios pedagógicos porque muitas funções evoluíram de forma independente com o passar dos anos. Isso dificultou a percepção de idéias fundamentais, que ficaram ocultas entre as variações incidentais nos nomes e nos argumentos das funções. Continuo mostrando os códigos equivalentes, escritos em base-R, nas barras laterais, notas de rodapé e, quando necessário, em seções individuais, mas se você quiser ver as idéias contidas neste livro expressas em base-R na sua forma mais pura, recomendo a leitura da primeira edição, disponível on-line em <http://adv-r.had.co.nz> (em inglês).
 
-The foundations of R have not changed in the five years since the first edition, but my understanding of them certainly has. Thus, the overall structure of "Foundations" has remained roughly the same, but many of the individual chapters have been considerably improved:
+Os fundamentos do R não mudaram nos cinco anos desde a primeira edição, mas meu entendimento deles certamente mudou. Assim, a estrutura geral de "Fundamentos" permaneceu praticamente a mesma, mas muitos dos capítulos individuais foram aprimorados consideravelmente:
 
-*   Chapter \@ref(names-values), "Names and values", is a brand new chapter
-    that helps you understand the difference between objects and names of
-    objects. This helps you more accurately predict when R will make a copy of
-    a data structure, and lays important groundwork to understand functional
-    programming.
+*   Capítulo \@ref(names-values), "Nomes e valores ", é um novo capítulo que 
+    ajuda a entender a diferença entre objetos e nomes de objetos. Isso ajuda a prever 
+    com mais precisão quando o R fará uma cópia de uma estrutura de dados e estabelece
+    conceitos importantes para entender a programação funcional.
+    
+*   Capítulo \@ref(vectors-chap), "Vetores" (anteriormente chamado "estruturas de dados"),
+    foi reescrito para que o foco fique nos diferentes tipos de vetores, como números
+    inteiros, fatores e data frames. Ele contém mais detalhes sobre importantes vetores
+    de classe S3 (como datas e data-hora), e discute a variante ao data frame oferecida
+    pelo pacote tibble [@tibble] e, de forma geral, reflete minha melhor compreensão dos
+    tipos de dados em forma de vetores.
 
-*   Chapter \@ref(vectors-chap), "Vectors" (previously called data structures),
-    has been rewritten to focus on vector types like integers, factors, and
-    data frames. It contains more details of important S3 vectors (like dates
-    and date-times), discusses the data frame variation provided by the
-    tibble package [@tibble], and generally reflects my improved understanding
-    of vector data types.
+*   Capítulo \@ref(subsetting), "Filtros", agora distingue entre `[` e
+    `[[` de acordo com seus propósitos: `[` extrai muitos valores e `[[` extrai um
+    valor único (anteriormente eles eram caracterizados como "simplificadores" ou
+    "preservadores"). A seção \@ref(subset-single) usa uma "locomotiva" para
+    te ajudar a entender como `[[` trabalha com listas e apresenta novas funções que 
+    oferecem um comportamento mais consistente para índices fora dos limites.
 
-*   Chapter \@ref(subsetting), "Subsetting", now distinguishes between `[` and
-    `[[` by their intention: `[` extracts many values and `[[` extracts a
-    single value (previously they were characterised by whether they "simplified"
-    or "preserved"). Section \@ref(subset-single) draws the "train" to help you
-    understand how `[[` works with lists, and introduces new functions that
-    provide more consistent behaviour for out-of-bounds indices.
+*   Capítulo \@ref(control-flow), "Estruturas de controle de fluxo", é um novo
+    capítulo: de alguma forma, eu esqueci anteriormente sobre ferramentas importantes
+    como o comando `if` e o laço de repetição `for`!
 
-*   Chapter \@ref(control-flow), "Control flow", is a new chapter: somehow
-    I previously forgot about important tools like `if` statements and `for`
-    loops!
+*   Capítulo \@ref(functions), "Funções", está melhor organizado,
+    apresenta o pipe (`%>%`) como uma terceira maneira de compor funções (Seção
+    \@ref(function-composition)) e tem uma abrangência consideravelmente melhor das 
+    notações de funções (Seção \@ref(function-forms)).
 
-*   Chapter \@ref(functions), "Functions", has an improved ordering,
-    introduces the pipe (`%>%`) as a third way to compose functions (Section
-    \@ref(function-composition)), and has considerably improved coverage of
-    function forms (Section \@ref(function-forms)).
+*   Capítulo \@ref(environments), "Ambientes", possui uma nova organização da parte de
+    ambientes especiais (Seção \@ref(special-environments)) e apresenta
+    uma discussão melhorada sobre a pilha de chamadas (Seção \@ref(call-stack)).
 
-*   Chapter \@ref(environments), "Environments", has a reorganised treatment of
-    special environments (Section \@ref(special-environments)), and a much
-    improved discussion of the call stack (Section \@ref(call-stack)).
+*   Capítulo \@ref(conditions), "Condições de exceção", contém material anteriormente 
+    em "Exceções e depuração" e muito conteúdo novo sobre como o sistema de tratamento 
+    de exceção do R funciona. Também mostra como criar classes de exceção
+    personalizadas (Seção \@ref(custom-conditions)).
+    
 
-*   Chapter \@ref(conditions), "Conditions", contains material previously
-    in "Exceptions and debugging", and much new content on how R's condition
-    system works. It also shows you how to create your own custom condition
-    classes (Section \@ref(custom-conditions)).
+Os capítulos após a Parte I, Fundamentos, foram reorganizados em torno dos três
+paradigmas de programação mais importantes em R: programação funcional, programação
+orientada a objetos e metaprogramação.
 
-The chapters following Part I, Foundations, have been re-organised around the three most important programming paradigms in R: functional programming, object-oriented programming, and metaprogramming.
 
-* Functional programming is now more cleanly divided into the three main
-  techniques: "Functionals" (Chapter \@ref(functionals)), "Function
-  factories" (Chapter \@ref(function-factories)), and "Function operators"
-  (Chapter \@ref(function-operators)). I've focussed in on ideas that have
-  practical applications in data science and reduced the amount of pure theory.
+* Agora, a parte de programação funcional está melhor dividida em torno das três técnicas
+  principais: "Funcionais" (Capítulo \@ref(functionals)), "Função Fábrica" (Capítulo
+  \@ref(function-factories)) e "Funções de Alta Ordem" (Capítulo
+  \@ref(function-operators)). Eu me concentrei em idéias que têm aplicações práticas
+  em ciência de dados e reduzi a quantidade de teoria pura.
+  
+    Esses capítulos agora usam funções fornecidas pelo pacote purrr [@purrr], o que me
+    permitiu focar mais nas idéias subjacentes e menos nos detalhes incidentais. Isso
+    levou a uma simplificação considerável do capítulo sobre funções de alta ordem, uma
+    vez que um objetivo importante era solucionar a ausência de elipses (`...`) nos
+    funcionais do base-R.
 
-  These chapters now use functions provided by the purrr package [@purrr],
-  which allow me to focus more on the underlying ideas and less on the
-  incidental details. This led to a considerable simplification of the
-  function operators chapter since a major use was to work around the absence
-  of ellipses (`...`) in base functionals.
+* A programação orientada a objetos (POO, ou OOP segundo as suas siglas em inglês)
+  agora forma uma seção importante do livro, com capítulos completamente novos sobre
+  os tipos de objetos do base-R (Capítulo \@ref(base-types)), e dos sistemas
+  S3 (Capítulo \@ref(s3)), S4 (Capítulo \@ref(s4)) e R6 (Capítulo \@ref(r6)), e os
+  *trade-offs* entre os sistemas (Capítulo \@ref(oo-tradeoffs)). 
+  
+    Esses capítulos focam em como os diferentes sistemas de objetos funcionam, e não em
+    como usá-los efetivamente. Isso é lamentável, mas necessário, porque muitos dos
+    detalhes técnicos não são descritos em nenhum outro lugar, e o uso eficaz de OOP
+    precisa de um livro inteiro só para isso.
 
-* Object-oriented programming (OOP) now forms a major section of the book with
-  completely new chapters on base types (Chapter \@ref(base-types)),
-  S3 (Chapter \@ref(s3)), S4 (Chapter \@ref(s4)), R6 (Chapter \@ref(r6)),
-  and the tradeoffs between the systems (Chapter \@ref(oo-tradeoffs)).
+* A metaprogramação (anteriormente chamada de "Computação na linguagem") descreve o
+  conjunto de ferramentas que você pode usar para gerar código com código. Comparado à
+  primeira edição, este material foi expandido e agora se concentra na "avaliação
+  organizada" (em inglês, "tidy evaluation"), que é um conjunto de idéias e teoria que
+  tornam a metaprogramação segura, bem fundamentada e acessível a muitos mais
+  programadores de R.  O capítulo \@ref(meta-big-picture), "Quadro Geral", descreve 
+  de maneira grosseira como todas as peças se encaixam; o capítulo \@ref(expressions),
+  "Expressões", descreve as estruturas de dados subjacentes; o capítulo 
+  \@ref(quasiquotation), "Quasiquotation", abrange métodos para avaliar argumentos que
+  contêm e não contêm aspas; o capítulo \@ref(evaluation), "Avaliação", explica o
+  método de avaliação do código em ambientes especiais; e o capítulo \@ref(translation),
+  "Traduções", reúne todos os temas para mostrar como você pode traduzir de um idioma 
+  (de programação) para outro.
+  
+A seção final do livro reúne os capítulos sobre técnicas de programação: criação de
+perfil (profiling), medição e melhoria de desempenho, e Rcpp (integração entre R e C ++).
+O conteúdo é muito parecido com o da primeira edição, embora a organização seja um pouco
+diferente. Fiz atualizações leves ao longo desses capítulos, especialmente para usar
+pacotes mais recentes (microbenchmark -> bench, lineprof -> profvis), mas a maioria do
+texto é a mesma.
 
-  These chapters focus on how the different object systems work,
-  not how to use them effectively. This is unfortunate, but necessary, because
-  many of the technical details are not described elsewhere, and effective use
-  of OOP needs a whole book of its own.
+Enquanto a segunda edição expandiu principalmente a abrangência do material existente,
+cinco capítulos foram removidos:
 
-* Metaprogramming (previously called "computing on the language") describes the
-  suite of tools that you can use to generate code with code. Compared to the
-  first edition this material has been substantially expanded and now focusses on
-  "tidy evaluation", a set of ideas and theory that make metaprogramming
-  safe, well-principled, and accessible to many more R programmers.
-  Chapter \@ref(meta-big-picture), "Big picture" coarsely lays out how all
-  the pieces fit together; Chapter \@ref(expressions), "Expressions", describes
-  the underlying data structures; Chapter \@ref(quasiquotation),
-  "Quasiquotation", covers quoting and unquoting; Chapter \@ref(evaluation),
-  "Evaluation", explains evaluation of code in special environments; and Chapter
-  \@ref(translation), "Translations", pulls all the themes together to show
-  how you might translate from one (programming) language to another.
+* O capítulo de vocabulário foi removido porque sempre foi um pouco estranho, e existem 
+  maneiras mais eficazes de apresentar listas de vocabulário do que em um capítulo de
+  livro.
 
-The final section of the book pulls together the chapters on programming techniques: profiling, measuring and improving performance, and Rcpp. The contents are very similar to the first edition, although the organisation is a little different. I have made light updates throughout these chapters particularly to use newer packges (microbenchmark -> bench, lineprof -> profvis), but the majority of the text is the same.
+* O capítulo de estilo foi substituído por um guia de estilo on-line (em inglês), <http://style.tidyverse.org/>. O guia de estilo está pareado com o novo pacote
+de estilos chamado styler [@styler], que pode aplicar automaticamente muitas das regras.
 
-While the second edition has mostly expanded coverage of existing material, five chapters have been removed:
+* O capítulo sobre C foi movido para <https://github.com/hadley/r-internals>, que, com o
+  tempo, fornecerá um guia para escrever código em C que funcione com as estruturas de 
+  dados do R.
 
-* The vocabulary chapter has been removed because it was always a bit of an odd
-  duck, and there are more effective ways to present vocabulary lists than in a
-  book chapter.
+* O capítulo de gerenciamento de memória foi removido. Grande parte do material foi
+  integrada ao Capítulo \@ref(names-values) e o restante parecia excessivamente
+  técnico e não tão importante.
 
-* The style chapter has been replaced with an online style guide,
-  <http://style.tidyverse.org/>. The style guide is paired with the new
-  styler package [@styler] which can automatically apply many of the rules.
-
-* The C chapter has been moved to <https://github.com/hadley/r-internals>, which, over time, will provide
-  a guide to writing C code that works with R's data structures.
-
-* The memory chapter has been removed. Much of the material has been integrated
-  into Chapter \@ref(names-values) and the remainder felt excessively technical
-  and not that important to understand.
-
-* The chapter on R's performance as a language was removed. It delivered
-  few actionable insights, and became dated as R changed.
+* O capítulo sobre o desempenho do R como linguagem foi removido. Ele forneceu poucos
+  *insights* práticos e ficou datado quando o R mudou.

@@ -1,11 +1,11 @@
 bookdown::gitbook:
-  includes:
-    in_header: [ga_script.html]
+  #includes:
+  #  in_header: [ga_script.html]
   config:
     toc:
       collapse: section
       before: |
-        <li><strong><a href="./">Advanced R</a></strong></li>
+        <li><strong><a href="./">R Avançado</a></strong></li>
     edit:
       link: https://github.com/hadley/adv-r/edit/master/%s
       text: "Edit"

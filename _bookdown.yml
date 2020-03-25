@@ -46,3 +46,6 @@ rmd_files:
     "References.Rmd",
   ]
 
+language:
+  label:
+    ref: "Referências"

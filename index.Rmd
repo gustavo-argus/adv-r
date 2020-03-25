@@ -1,11 +1,11 @@
----
+--- 
 knit: "bookdown::render_book"
-title: "Advanced R"
+title: "R Avançado"
 author: ["Hadley Wickham"]
-description: "The book is designed primarily for R users who want to improve their programming skills and understanding of the language.  It should also be useful for programmers coming to R from other languages, as help you to understand why R works the way it does."
+description: "O livro foi desenvolvido principalmente para usuárixs de R que desejam melhorar suas habilidades de programação e compreensão dessa linguagem. Também deve ser útil para programadorxs que chegam ao R a partir de outras linguagens, pois ajuda a entender porquê o R funciona do jeito que ele funciona."
 url: 'https\://adv-r.hadley.nz/'
 github-repo: hadley/adv-r
-twitter-handle: hadleywickham
+twitter-handle: hadley
 cover-image: cover.png
 site: bookdown::bookdown_site
 documentclass: krantz
@@ -13,37 +13,35 @@ bibliography: book.bib
 link-citations: yes
 ---
 
+
 `r if (knitr::is_latex_output()) '<!--'` 
 
-# Welcome {-}
+# Bem-vindx {-}
 
 <a href="https://amzn.to/2WoabjB"><img src="cover.png" width="250" height="366" align="right" alt="Cover image" /></a>
 
-This is the website for 2nd edition of __"[Advanced R](https://amzn.to/2WoabjB)"__, a book in Chapman & Hall's R Series. The book is designed primarily for R users who want to improve their programming skills and understanding of the language. It should also be useful for programmers coming to R from other languages, as help you to understand why R works the way it does.
+Este é o site da tradução da 2ª edição do livro __"[Advanced R](https://amzn.to/2WoabjB)"__, um livro da série sobre R da editora Chapman & Hall. O livro foi desenvolvido principalmente para usuárixs de R que desejam melhorar suas habilidades de programação e compreensão dessa linguagem. Também deve ser útil para programadorxs que chegam ao R a partir de outras linguagens, pois ajuda a entender porquê o R funciona do jeito que ele funciona.
 
-If you're looking for the electronic version of the 1st edition, you can find it online at <http://adv-r.had.co.nz/>.
+Se você está procurando a versão original em inglês da 2ª edição, pode encontrá-la online em <https://adv-r.hadley.nz/>
 
-## License {-}
+Se você está procurando a versão eletrônica da 1ª edição, pode encontrá-la online em <http://adv-r.had.co.nz/> (em inglês). 
+
+## Licença {-}
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
 
-This work, as a whole, is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+Este trabalho, como um todo, está licenciado sob a licença <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR">Creative Commons Atribuição-NãoComercial-Compartilha Igual 4.0 Internacional</a>.
 
-The code contained in this book is simultaneously available under the [MIT license](https://opensource.org/licenses/MIT); this means that you are free to use it in your own packages, as long as you cite the source.
+O código contido neste livro está disponível simultaneamente sob a [licença MIT - em inglês](https://opensource.org/licenses/MIT); isso significa que você é livre para usá-lo em seus próprios pacotes, desde que cite a fonte.
 
-## Other books {-}
+## Outros livros {-}
 
-You may also be interested in:
+Você também pode se interessar por:
 
-* __"[Advanced R solutions](http://advanced-r-solutions.rbind.io)"__ by
-  Malte Grosser and Henning Bumann, provides worked solutions to the exercises
-  in this book.
+* __"[Advanced R solutions](http://advanced-r-solutions.rbind.io)"__, (em inglês) por Malte Grosser e Henning Bumann, fornece um manual de soluções para os exercícios neste livro.
 
-* __"[R for Data Science](http://r4ds.had.co.nz/)"__ which introduces you to R 
-  as a tool for doing data science, focussing on a consistent
-  set of packages known as the tidyverse.
+* __"[R for Data Science](http://r4ds.had.co.nz/)"__, (em inglês) apresenta o R como uma ferramenta para fazer ciência de dados e foca em um sólido conjunto de pacotes conhecido como ''tidyverse'' *(Nota do tradutor: algo como universo-organizado)*.
 
-* __"[R Packages](http://r-pkgs.had.co.nz/)"__ which teaches you 
-  how to make the most of R's fantastic package system.
+* __"[R Packages](http://r-pkgs.had.co.nz/)"__, (em inglês) ensina a aproveitar ao máximo o fantástico sistema de pacotes do R.
 
 `r if (knitr::is_latex_output()) '-->'`
