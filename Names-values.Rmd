@@ -1,4 +1,4 @@
-# Names and values {#names-values}
+# Nomes e valores {#names-values}
 
 ```{r, include = FALSE}
 source("common.R")
@@ -9,37 +9,42 @@ id <- function() {
 }
 ```
 
-## Introduction
+## Introdução
 
-In R, it is important to understand the distinction between an object and its name. Doing so will help you:
+No R, é importante entender a diferença entre um objeto e seu nome. Isso ajudará 
+você a:
 
-* More accurately predict the performance and memory usage of your code. 
-* Write faster code by avoiding accidental copies, a major source of slow code. 
-* Better understand R's functional programming tools.
+* Prever com mais precisão como será o desempenho e o quanto de memória o seu 
+código usará.
+* Escrever um código mais rápido, evitando cópias acidentais, uma das principais 
+fontes de lentidão em um código.
+* Entenda melhor as ferramentas de programação funcional do R.
 
-The goal of this chapter is to help you understand the distinction between names and values, and when R will copy an object.
+O objetivo deste capítulo é ajudá-lo a entender a diferença entre nomes e 
+valores e saber quando R copiará um objeto.
 
 ### Quiz {-}
 
-Answer the following questions to see if you can safely skip this chapter. You can find the answers at the end of the chapter in Section \@ref(names-values-answers).
+Responda às seguintes perguntas para ver se você pode pular com segurança este 
+capítulo. Você pode encontrar as respostas no final do capítulo na Seção \@ref(names-values-answers).
 
-1.  Given the following data frame, how do I create a new column called "3"
-    that contains the sum of `1` and `2`? You may only use `$`, not `[[`.
-    What makes `1`, `2`, and `3` challenging as variable names?
+1.  Dado o seguinte *data frame*, como faço para criar uma nova coluna 
+chamada "3" que contém a soma de `1` e `2`? Você só pode usar `$`, não `[[`.
+O que faz com que `1`, `2` e `3` sejam desafiadores como nomes de variáveis?
 
     ```{r}
     df <- data.frame(runif(3), runif(3))
     names(df) <- c(1, 2)
     ```
 
-1.  In the following code, how much memory does `y` occupy?
+2.  No código a seguir, `y` ocupa quanta memória?
    
     ```{r}
     x <- runif(1e6)
     y <- list(x, x, x)
     ```
 
-1.  On which line does `a` get copied in the following example?
+3.  No exemplo a seguir, em qual linha `a` é copiada?
 
     ```{r}
     a <- c(1, 5, 3, 2)
@@ -47,42 +52,51 @@ Answer the following questions to see if you can safely skip this chapter. You c
     b[[1]] <- 10
     ```
 
-### Outline {-}
+### Sumário {-}
 
-* Section \@ref(binding-basics) introduces you to the distinction between
-  names and values, and discusses how `<-` creates a binding, or reference,
-  between a name and a value. 
+* A seção \@ref(binding-basics) apresenta a diferença entre
+  nomes e valores e discute como `<-` cria uma ligação, ou referência,
+  entre um nome e um valor.
 
-* Section \@ref(copy-on-modify) describes when R makes a copy: whenever you
-  modify a vector, you're almost certainly creating a new, modified vector. 
-  You'll learn how to use `tracemem()` to figure out when a copy actually 
-  occurs. Then you'll explore the implications as they apply to function calls, 
-  lists, data frames, and character vectors. 
+* A seção \@ref(copy-on-modify) descreve quando o R faz uma cópia: sempre que 
+  você modificar um vetor, você - quase sempre - estará criando um novo vetor 
+  modificado. Você aprenderá a usar `tracemem()` para descobrir quando uma 
+  cópia realmente ocorre. 
+  Em seguida, você explorará as implicações disso conforme elas se aplicam às 
+  chamadas de função, às listas, aos *data frames* e aos vetores de caracteres.
+  
+* A seção \@ref(object-size) explora as implicações das duas seções anteriores
+  no quanto de memória é ocupada por um objeto. Como a sua intuição sobre isso
+  pode estar completamente errada - e como a função `utils::object.size()` é, 
+  infelizmente, imprecisa -, você aprenderá a usar a função 
+  `lobstr::obj_size()`.
 
-* Section \@ref(object-size) explores the implications of the previous two 
-  sections on how much memory an object occupies. Since your intuition may be 
-  profoundly wrong and since `utils::object.size()` is unfortunately 
-  inaccurate, you'll learn how to use `lobstr::obj_size()`.
+* A seção \@ref(modify-in-place) descreve as duas exceções importantes à ação
+  copiar-ao-modificar: em ambientes e valores com um único nome, os objetos são,
+  na verdade, modificados no lugar em que se encontram.
 
-* Section \@ref(modify-in-place) describes the two important exceptions to
-  copy-on-modify: with environments and values with a single name, objects are 
-  actually modified in place.
+* A seção \@ref(gc) conclui o capítulo com uma discussão sobre o coletor de 
+  lixo, que libera a memória usada por objetos que não são mais referenciados 
+  por um nome.
 
-* Section \@ref(gc) concludes the chapter with a discussion of the garbage 
-  collector, which frees up the memory used by objects no longer referenced by 
-  a name.
+### Pré-requisitos {-}
 
-### Prerequisites {-}
-
-We'll use the [lobstr](https://github.com/r-lib/lobstr) package to dig into the internal representation of R objects.
+Nós vamos usar o pacote [lobstr](https://github.com/r-lib/lobstr) para ir fundo
+em como o R representa internamente seus objetos.
 
 ```{r setup}
 library(lobstr)
 ```
 
-### Sources {-}
+### Fontes {-}
 
-The details of R's memory management are not documented in a single place. Much of the information in this chapter was gleaned from a close reading of the documentation (particularly `?Memory` and `?gc`), the [memory profiling](http://cran.r-project.org/doc/manuals/R-exts.html#Profiling-R-code-for-memory-use) section of _Writing R extensions_ [@r-exts], and the [SEXPs](http://cran.r-project.org/doc/manuals/R-ints.html#SEXPs) section of _R internals_ [@r-ints]. The rest I figured out by reading the C source code, performing small experiments, and asking questions on R-devel. Any mistakes are entirely mine.
+Os detalhes sobre como o R faz seu gerenciamento de memória não estão 
+documentados em um único local. Muitas das informações deste capítulo foram 
+obtidas a partir de de uma leitura atenta da documentação (em particular, 
+`?Memory` and `?gc`), da seção [memory profiling](http://cran.r-project.org/doc/manuals/R-exts.html#Profiling-R-code-for-memory-use) do documento _Writing R extensions_ [@r-exts], e da seção [SEXPs](http://cran.r-project.org/doc/manuals/R-ints.html#SEXPs) do documento
+_R internals_ [@r-ints]. O resto eu descobri lendo o código fonte em C, 
+fazendo pequenos experimentos e fazendo perguntas no fórum R-devel. 
+Quaisquer erros são inteiramente meus.
 
 ## Binding basics
 \index{bindings|seealso {assignment}}
