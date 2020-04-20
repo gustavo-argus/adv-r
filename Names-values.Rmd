@@ -18,33 +18,35 @@ você a:
 código usará.
 * Escrever um código mais rápido, evitando cópias acidentais, uma das principais 
 fontes de lentidão em um código.
-* Entenda melhor as ferramentas de programação funcional do R.
+* Entender melhor as ferramentas de programação funcional do R.
 
 O objetivo deste capítulo é ajudá-lo a entender a diferença entre nomes e 
-valores e saber quando R copiará um objeto.
+valores, e saber quando R copiará um objeto.
 
 ### Quiz {-}
 
 Responda às seguintes perguntas para ver se você pode pular com segurança este 
-capítulo. Você pode encontrar as respostas no final do capítulo na Seção \@ref(names-values-answers).
+capítulo. Você pode encontrar as respostas no final do capítulo, na Seção 
+\@ref(names-values-answers).
 
 1.  Dado o seguinte *data frame*, como faço para criar uma nova coluna 
 chamada "3" que contém a soma de `1` e `2`? Você só pode usar `$`, não `[[`.
-O que faz com que `1`, `2` e `3` sejam desafiadores como nomes de variáveis?
+O que faz com que `1`, `2` e `3` sejam opções desafiadoras para usar como nomes 
+de variáveis?
 
     ```{r}
     df <- data.frame(runif(3), runif(3))
     names(df) <- c(1, 2)
     ```
 
-2.  No código a seguir, `y` ocupa quanta memória?
+1.  No código a seguir, `y` ocupa quanta memória?
    
     ```{r}
     x <- runif(1e6)
     y <- list(x, x, x)
     ```
 
-3.  No exemplo a seguir, em qual linha `a` é copiada?
+1.  No exemplo a seguir, em qual linha o objeto `a` é copiado?
 
     ```{r}
     a <- c(1, 5, 3, 2)
@@ -55,11 +57,11 @@ O que faz com que `1`, `2` e `3` sejam desafiadores como nomes de variáveis?
 ### Sumário {-}
 
 * A seção \@ref(binding-basics) apresenta a diferença entre
-  nomes e valores e discute como `<-` cria uma ligação, ou referência,
+  nomes e valores e discute como `<-` faz a vinculação, ou referência,
   entre um nome e um valor.
 
 * A seção \@ref(copy-on-modify) descreve quando o R faz uma cópia: sempre que 
-  você modificar um vetor, você - quase sempre - estará criando um novo vetor 
+  modificar um vetor, você - quase sempre - estará criando um novo vetor 
   modificado. Você aprenderá a usar `tracemem()` para descobrir quando uma 
   cópia realmente ocorre. 
   Em seguida, você explorará as implicações disso conforme elas se aplicam às 
@@ -93,38 +95,49 @@ library(lobstr)
 Os detalhes sobre como o R faz seu gerenciamento de memória não estão 
 documentados em um único local. Muitas das informações deste capítulo foram 
 obtidas a partir de de uma leitura atenta da documentação (em particular, 
-`?Memory` and `?gc`), da seção [memory profiling](http://cran.r-project.org/doc/manuals/R-exts.html#Profiling-R-code-for-memory-use) do documento _Writing R extensions_ [@r-exts], e da seção [SEXPs](http://cran.r-project.org/doc/manuals/R-ints.html#SEXPs) do documento
+`?Memory` and `?gc`), da seção [memory profiling](http://cran.r-project.org/doc/manuals/R-exts.html#Profiling-R-code-for-memory-use) 
+do documento _Writing R extensions_ [@r-exts], e da seção [SEXPs](http://cran.r-project.org/doc/manuals/R-ints.html#SEXPs) do documento
 _R internals_ [@r-ints]. O resto eu descobri lendo o código fonte em C, 
 fazendo pequenos experimentos e fazendo perguntas no fórum R-devel. 
 Quaisquer erros são inteiramente meus.
 
-## Binding basics
+## O básico sobre Vinculação {#binding-basics}
 \index{bindings|seealso {assignment}}
 \index{assignment}
 \indexc{obj\_addr()}
 
-Consider this code: 
+Considere este código: 
 
 ```{r bind1}
 x <- c(1, 2, 3)
 ```
 
-It's easy to read it as: "create an object named 'x', containing the values 1, 2, and 3". Unfortunately, that's a simplification that will lead to inaccurate predictions about what R is actually doing behind the scenes. It's more accurate to say that this code is doing two things:
+É fácil ler esse código como: "crie um objeto chamado 'x', que contém os valores 
+1, 2 e 3". Infelizmente, essa é uma simplificação que levará a previsões 
+imprecisas sobre o que o R está realmente fazendo nos bastidores. 
+É mais correto dizer que esse código está fazendo duas coisas:
 
-* It's creating an object, a vector of values, `c(1, 2, 3)`.
-* And it's binding that object to a name, `x`.
+* Está criando um objeto, um vetor de valores, `c(1, 2, 3)`.
+* E está vinculando esse objeto a um nome, `x`.
 
-In other words, the object, or value, doesn't have a name; it's actually the name that has a value. 
+Em outras palavras, não é o objeto/valor que tem um nome; na 
+verdade, é o nome que tem um valor.
 
-To further clarify this distinction, I'll draw diagrams like this:  
+Para esclarecer melhor essa distinção, vou desenhar diagramas como este:
 
 ```{r, echo = FALSE, out.width = NULL}
 knitr::include_graphics("diagrams/name-value/binding-1.png")
 ```
 
-The name, `x`, is drawn with a rounded rectangle. It has an arrow that points to (or binds or references) the value, the vector `c(1, 2, 3)`. The arrow points in opposite direction to the assignment arrow: `<-` creates a binding from the name on the left-hand side to the object on the right-hand side.
+O nome, `x`, é desenhado com um retângulo arredondado. Possui uma seta que 
+aponta para (ou vincula, ou faz referência) ao valor, o vetor `c(1, 2, 3)`. 
+A seta aponta na direção oposta à seta de vinculação: `<-` 
+cria uma vinculação que se inicia no nome, no lado esquerdo, e vai para o 
+objeto, no lado direito.
 
-Thus, you can think of a name as a reference to a value. For example, if you run this code, you don't get another copy of the value `c(1, 2, 3)`, you get another binding to the existing object:
+Dessa forma, você pode pensar em um nome como uma referência a um valor. 
+Por exemplo, se você executar o código a seguir, você não obterá outra cópia do 
+valor `c(1, 2, 3)`. Você terá outra vinculação ao objeto já existente:
 
 ```{r bind2, dependson = "bind1"}
 y <- x
@@ -133,37 +146,62 @@ y <- x
 knitr::include_graphics("diagrams/name-value/binding-2.png")
 ```
 
-You might have noticed that the value `c(1, 2, 3)` has a label: `0x74b`. While the vector doesn't have a name, I'll occasionally need to refer to an object independent of its bindings. To make that possible, I'll label values with a unique identifier. These identifiers have a special form that looks like the object's memory "address", i.e. the location in memory where the object is stored. But because the actual memory addresses changes every time the code is run, we use these identifiers instead.
+Você deve ter notado que o valor `c(1, 2, 3)` tem um rótulo: `0x74b`. 
+Embora o vetor não tenha um nome, ocasionalmente precisarei me referir a um 
+objeto independente de suas vinculações. Para tornar isso possível, vou rotular 
+valores com um identificador exclusivo. Esses identificadores têm uma forma 
+especial que se parece com o "endereço" do objeto na memória, ou seja, o local 
+na memória em que o objeto está armazenado. Mas como os endereços de memória 
+reais mudam toda vez que o código é executado, usamos esses identificadores.
 
-You can access an object's identifier with `lobstr::obj_addr()`. Doing so allows you to see that both `x` and `y` point to the same identifier:
+Você pode acessar o identificador de um objeto com `lobstr::obj_addr()`. 
+Isso permite que você veja que `x` e` y` apontam para o mesmo identificador:
 
 ```{r bind3, dependson = "bind2"}
 obj_addr(x)
 obj_addr(y)
 ```
 
-These identifiers are long, and change every time you restart R.
+Esses identificadores são longos e mudam toda vez que você reinicia o R.
 
-It can take some time to get your head around the distinction between names and values, but understanding this is really helpful in functional programming where functions can have different names in different contexts.
+Pode levar algum tempo para entender a diferença entre nomes e valores, 
+mas entender isso é realmente útil na programação funcional, em que as funções
+podem ter nomes diferentes em contextos diferentes.
 
-### Non-syntactic names {#non-syntactic}
+### Nomes não-sintáticos {#non-syntactic}
 \index{reserved names} 
 \index{'@\texttt{`}} 
 \index{non-syntactic names}
 
-R has strict rules about what constitutes a valid name. A __syntactic__ name must consist of letters[^letters], digits, `.` and `_` but can't begin with `_` or a digit. Additionally, you can't use any of the __reserved words__ like `TRUE`, `NULL`, `if`, and `function` (see the complete list in `?Reserved`). A name that doesn't follow these rules is a __non-syntactic__ name; if you try to use them, you'll get an error:
+R possui regras estritas sobre o que constitui um nome válido.
+Um nome __sintático__ deve possuir apenas letras[^letras], dígitos, `.` e `_`, 
+mas não pode começar com `_` or um dígito. 
+Além disso, você não pode usar nenhuma das __palavras reservadas__ como
+`TRUE`, `NULL`, `if`, e `function` (veja a lista completa em `?Reserved` - 
+em inglês). 
+Um nome que não segue essas regras é um nome __não-sintático__; 
+se você tentar escrever um nome assim, receberá um erro:
 
 ```{r, eval = FALSE}
 _abc <- 1
 #> Error: unexpected input in "_"
+# (Tradução: Erro: entrada inesperada em "_")
 
 if <- 10
 #> Error: unexpected assignment in "if <-"
+# (Tradução: Erro: atribuição inesperada em "if <-")
 ```
 
-[^letters]: Surprisingly, precisely what constitutes a letter is determined by your current locale. That means that the syntax of R code can actually differ from computer to computer, and that it's possible for a file that works on one computer to not even parse on another! Avoid this problem by sticking to ASCII characters (i.e. A-Z) as much as possible.
+[^letras]: Surpreendentemente, a definicao exata do que constitui uma letra é 
+determinada pelo local atual. 
+Isso significa que a sintaxe do código R pode ser realmente diferente de um 
+computador para outro, e que é possível que um arquivo funcione em um 
+computador, mas nem sequer rode em outro! 
+Evite esse problema usando os caracteres ASCII (ou seja, A-Z), o máximo 
+possível.
 
-It's possible to override these rules and use any name, i.e., any sequence of characters, by surrounding it with backticks:
+É possível sobrepor essas regras e usar qualquer nome, isto é, qualquer 
+sequência de caracteres. Basta escrevê-lo entre aspas invertidas:
 
 ```{r}
 `_abc` <- 1
@@ -172,17 +210,23 @@ It's possible to override these rules and use any name, i.e., any sequence of ch
 `if` <- 10
 `if`
 ```
-
-While it's unlikely you'd deliberately create such crazy names, you need to understand how these crazy names work because you'll come across them, most commonly when you load data that has been created outside of R.
+Embora seja improvável que você crie nomes malucos de forma deliberada, 
+você precisa entender como esses nomes malucos funcionam, pois irá lidar com 
+eles em algum momento (mais comumente, quando importar dados que foram criados 
+fora do R).
 
 ::: sidebar
-You _can_ also create non-syntactic bindings using single or double quotes (e.g. `"_abc" <- 1`) instead of backticks, but you shouldn't, because you'll have to use a different syntax to retrieve the values. The ability to use strings on the left hand side of the assignment arrow is an historical artefact, used before R supported backticks.
+Você também _pode_ criar vinculações não-sintáticas usando aspas simples ou 
+duplas (por exemplo, `"_abc" <- 1`) em vez de aspas invertidas. Mas, não deve,
+pois precisará usar uma sintaxe diferente para recuperar os valores. 
+A capacidade de usar seqüências de caracteres no lado esquerdo da seta de 
+vinculação é um artefato histórico que vem da época em que o R não aceitava
+aspas invertidas.
 :::
 
-### Exercises
+### Exercícios
 
-1.  Explain the relationship between `a`, `b`, `c` and `d` in the following 
-    code:
+1.  Explique a relação entre `a`, `b`, `c` e `d` no código a seguir:
 
     ```{r}
     a <- 1:10
@@ -191,10 +235,11 @@ You _can_ also create non-syntactic bindings using single or double quotes (e.g.
     d <- 1:10
     ```
 
-1.  The following code accesses the mean function in multiple ways. Do they all 
-    point to the same underlying function object? Verify this with 
-    `lobstr::obj_addr()`.
-    
+1.  O código a seguir acessa a função *mean* (que retorna a média dos valores - 
+    nota do tradutor) de várias maneiras. 
+    Será que todas essas maneiras apontam para o mesmo identificador desse 
+    objeto de tipo função? Verifique isso com `lobstr::obj_addr()`.
+
     ```{r, eval = FALSE}
     mean
     base::mean
@@ -203,15 +248,17 @@ You _can_ also create non-syntactic bindings using single or double quotes (e.g.
     match.fun("mean")
     ```
     
-1.  By default, base R data import functions, like `read.csv()`, will 
-    automatically convert non-syntactic names to syntactic ones. Why might 
-    this be problematic? What option allows you to suppress this behaviour?
+1.  De forma padrão, as funções básicas do R para importação de dados, como 
+    `read.csv()`, convertem automaticamente nomes não-sintáticos em nomes 
+    sintáticos. Por que isso pode ser problemático? Que opção permite evitar 
+    esse comportamento?
     
-1.  What rules does `make.names()` use to convert non-syntactic names into
-    syntactic ones?
+1.  Quais regras a função `make.names()` usa para converter nomes não-sintáticos 
+    em nomes sintáticos?
 
-1.  I slightly simplified the rules that govern syntactic names. Why is `.123e1`
-    not a syntactic name? Read `?make.names` for the full details.
+1.  Eu, levemente, simplifiquei as regras que governam os nomes sintáticos. 
+    Por que `.123e1` não é um nome sintático? Leia `?make.names` para mais 
+    detalhes.
 
 ## Copy-on-modify
 \index{copy-on-modify}
