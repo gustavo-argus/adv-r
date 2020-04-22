@@ -1,37 +1,63 @@
 # Prefácio {-}
 
-Bem-vindx à segunda edição de _R Avançado_. Eu tinha três objetivos principais para esta edição:
+Bem-vindx à segunda edição de _R Avançado_. 
+Eu tinha três objetivos principais para esta edição:
 
-* Melhorar a abrangência de conceitos importantes que só compreendi completamente após a publicação da primeira edição.
+* Melhorar a abrangência de conceitos importantes que só compreendi 
+completamente após a publicação da primeira edição.
 
-* Reduzir a abrangência de tópicos que o tempo mostrou serem menos úteis, ou que acho realmente interessantes mas que não são tão práticos.
+* Reduzir a abrangência de tópicos que o tempo mostrou serem menos úteis, ou que 
+acho realmente interessantes mas que não são tão práticos.
 
-* Tornar, de forma geral, o material mais fácil de entender ao ter um texto melhor escrito, códigos mais claros e muito mais diagramas.
+* Tornar, de forma geral, o material mais fácil de entender ao ter um texto 
+melhor escrito, códigos mais claros e muito mais diagramas.
 
-Se você estiver familiarizadx com a primeira edição, este prefácio descreve as principais mudanças para que você possa focar sua leitura nas novas áreas. Se você estiver lendo uma versão impressa deste livro (não disponível em Português - nota do tradutor), notará, prontamente, uma grande mudança: _R Avançado_ agora está em cores! Isso melhorou consideravelmente o destaque dado à sintaxe nos pedaços de código e facilitou muito a criação de diagramas mais didáticos. Tirei proveito disso e incluí mais de 100 novos diagramas ao longo do livro.
+Se você estiver familiarizadx com a primeira edição, este prefácio descreve as 
+principais mudanças para que você possa focar sua leitura nas novas áreas. Se 
+você estiver lendo uma versão impressa deste livro (não disponível em Português 
+- nota do tradutor), notará, prontamente, uma grande mudança: _R Avançado_ agora 
+está em cores! Isso melhorou consideravelmente o destaque dado à sintaxe nos 
+pedaços de código e facilitou muito a criação de diagramas mais didáticos. 
+Tirei proveito disso e incluí mais de 100 novos diagramas ao longo do livro.
 
-Outra grande mudança nesta versão é o uso de novos pacotes. Particularmente, o [rlang](http://rlang.r-lib.org), que fornece uma interface limpa para operações e estruturas de dados de baixo nível. A primeira edição usou, quase exclusivamente, funções básicas do R (chamadas de base-R), o que criou alguns desafios pedagógicos porque muitas funções evoluíram de forma independente com o passar dos anos. Isso dificultou a percepção de idéias fundamentais, que ficaram ocultas entre as variações incidentais nos nomes e nos argumentos das funções. Continuo mostrando os códigos equivalentes, escritos em base-R, nas barras laterais, notas de rodapé e, quando necessário, em seções individuais, mas se você quiser ver as idéias contidas neste livro expressas em base-R na sua forma mais pura, recomendo a leitura da primeira edição, disponível on-line em <http://adv-r.had.co.nz> (em inglês).
+Outra grande mudança nesta versão é o uso de novos pacotes. Particularmente, 
+o [rlang](http://rlang.r-lib.org), que fornece uma interface limpa para 
+operações e estruturas de dados de baixo nível. A primeira edição usou, quase 
+exclusivamente, funções básicas do R (chamadas de base-R), o que criou alguns 
+desafios pedagógicos porque muitas funções evoluíram de forma independente com 
+o passar dos anos. Isso dificultou a percepção de idéias fundamentais, que 
+ficaram ocultas entre as variações incidentais nos nomes e nos argumentos das 
+funções. Continuo mostrando os códigos equivalentes, escritos em base-R, nas 
+barras laterais, notas de rodapé e, quando necessário, em seções individuais, 
+mas se você quiser ver as idéias contidas neste livro expressas em base-R na 
+sua forma mais pura, recomendo a leitura da primeira edição, disponível on-line 
+em <http://adv-r.had.co.nz> (em inglês).
 
-Os fundamentos do R não mudaram nos cinco anos desde a primeira edição, mas meu entendimento deles certamente mudou. Assim, a estrutura geral de "Fundamentos" permaneceu praticamente a mesma, mas muitos dos capítulos individuais foram aprimorados consideravelmente:
+Os fundamentos do R não mudaram nos cinco anos desde a primeira edição, mas meu 
+entendimento deles certamente mudou. Assim, a estrutura geral de "Fundamentos" 
+permaneceu praticamente a mesma, mas muitos dos capítulos individuais foram 
+aprimorados consideravelmente:
 
 *   Capítulo \@ref(names-values), "Nomes e valores ", é um novo capítulo que 
-    ajuda a entender a diferença entre objetos e nomes de objetos. Isso ajuda a prever 
-    com mais precisão quando o R fará uma cópia de uma estrutura de dados e estabelece
-    conceitos importantes para entender a programação funcional.
+    ajuda a entender a diferença entre objetos e nomes de objetos. Isso ajuda a 
+    prever com mais precisão quando o R fará uma cópia de uma estrutura de dados 
+    e estabelece conceitos importantes para entender a programação funcional.
     
-*   Capítulo \@ref(vectors-chap), "Vetores" (anteriormente chamado "estruturas de dados"),
-    foi reescrito para que o foco fique nos diferentes tipos de vetores, como números
-    inteiros, fatores e data frames. Ele contém mais detalhes sobre importantes vetores
-    de classe S3 (como datas e data-hora), e discute a variante ao data frame oferecida
-    pelo pacote tibble [@tibble] e, de forma geral, reflete minha melhor compreensão dos
-    tipos de dados em forma de vetores.
+*   Capítulo \@ref(vectors-chap), "Vetores" (anteriormente chamado de
+    "Estruturas de dados"), foi reescrito para que o foco fique nos diferentes 
+    tipos de vetores, como números inteiros, fatores e *data frames*. 
+    Ele contém mais detalhes sobre importantes vetores de classe S3 (como datas 
+    e data-hora), e discute a variante ao data frame oferecida
+    pelo pacote tibble [@tibble] e, de forma geral, reflete minha melhor 
+    compreensão dos tipos de dados em forma de vetores.
 
 *   Capítulo \@ref(subsetting), "Filtros", agora distingue entre `[` e
-    `[[` de acordo com seus propósitos: `[` extrai muitos valores e `[[` extrai um
-    valor único (anteriormente eles eram caracterizados como "simplificadores" ou
-    "preservadores"). A seção \@ref(subset-single) usa uma "locomotiva" para
-    te ajudar a entender como `[[` trabalha com listas e apresenta novas funções que 
-    oferecem um comportamento mais consistente para índices fora dos limites.
+    `[[` de acordo com seus propósitos: `[` extrai muitos valores e `[[` extrai 
+    um valor único (anteriormente eles eram caracterizados como 
+    "simplificadores" ou "preservadores"). A seção \@ref(subset-single) usa uma 
+    "locomotiva" para te ajudar a entender como `[[` trabalha com listas e 
+    apresenta novas funções que oferecem um comportamento mais consistente para 
+    índices fora dos limites.
 
 *   Capítulo \@ref(control-flow), "Estruturas de controle de fluxo", é um novo
     capítulo: de alguma forma, eu esqueci anteriormente sobre ferramentas importantes
@@ -108,16 +134,18 @@ cinco capítulos foram removidos:
   maneiras mais eficazes de apresentar listas de vocabulário do que em um capítulo de
   livro.
 
-* O capítulo de estilo foi substituído por um guia de estilo on-line (em inglês), <http://style.tidyverse.org/>. O guia de estilo está pareado com o novo pacote
-de estilos chamado styler [@styler], que pode aplicar automaticamente muitas das regras.
+* O capítulo de estilo foi substituído por um guia de estilo on-line (em 
+  inglês), <http://style.tidyverse.org/>. O guia de estilo está pareado com o 
+  novo pacote de estilos chamado styler [@styler], que pode aplicar 
+  automaticamente muitas das regras.
 
-* O capítulo sobre C foi movido para <https://github.com/hadley/r-internals>, que, com o
-  tempo, fornecerá um guia para escrever código em C que funcione com as estruturas de 
-  dados do R.
+* O capítulo sobre C foi movido para <https://github.com/hadley/r-internals>, 
+  que, com o tempo, fornecerá um guia para escrever código em C que funcione 
+  com as estruturas de dados do R.
 
-* O capítulo de gerenciamento de memória foi removido. Grande parte do material foi
-  integrada ao Capítulo \@ref(names-values) e o restante parecia excessivamente
-  técnico e não tão importante.
+* O capítulo de gerenciamento de memória foi removido. Grande parte do material 
+  foi integrada ao Capítulo \@ref(names-values) e o restante parecia 
+  excessivamente técnico e não tão importante.
 
-* O capítulo sobre o desempenho do R como linguagem foi removido. Ele forneceu poucos
-  *insights* práticos e ficou datado quando o R mudou.
+* O capítulo sobre o desempenho do R como linguagem foi removido. Ele forneceu 
+  poucos *insights* práticos e ficou datado quando o R mudou.
