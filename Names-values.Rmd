@@ -56,12 +56,12 @@ de variáveis?
 
 ### Sumário {-}
 
-* A seção \@ref(binding-basics) apresenta a diferença entre
+* A seção \@ref(o-básico-sobre-vinculação) apresenta a diferença entre
   nomes e valores e discute como `<-` faz a vinculação, ou referência,
   entre um nome e um valor.
 
-* A seção \@ref(copy-on-modify) descreve quando o R faz uma cópia: sempre que 
-  modificar um vetor, você - quase sempre - estará criando um novo vetor 
+* A seção \@ref(copiar-ao-modificar) descreve quando o R faz uma cópia: sempre 
+  que modificar um vetor, você - quase sempre - estará criando um novo vetor 
   modificado. Você aprenderá a usar `tracemem()` para descobrir quando uma 
   cópia realmente ocorre. 
   Em seguida, você explorará as implicações disso conforme elas se aplicam às 
@@ -101,7 +101,7 @@ _R internals_ [@r-ints]. O resto eu descobri lendo o código fonte em C,
 fazendo pequenos experimentos e fazendo perguntas no fórum R-devel. 
 Quaisquer erros são inteiramente meus.
 
-## O básico sobre Vinculação {#binding-basics}
+## O básico sobre Vinculação {#o-básico-sobre-vinculação}
 \index{bindings|seealso {assignment}}
 \index{assignment}
 \indexc{obj\_addr()}
@@ -260,12 +260,16 @@ aspas invertidas.
     Por que `.123e1` não é um nome sintático? Leia `?make.names` para mais 
     detalhes.
 
-## Copy-on-modify
-\index{copy-on-modify}
+## Copiar-ao-modificar
+\index{copiar-ao-modificar}
 
-Consider the following code. It binds `x` and `y` to the same underlying value, then modifies `y`[^double-bracket].
+Considere o seguinte código. Ele vincula `x` e` y` ao mesmo valor subjacente e 
+modifica `y`[^colchetes].
 
-[^double-bracket]: You may be surprised to see `[[` used to subset a numeric vector. We'll come back to this in Section \@ref(subset-single), but in brief, I think you should always use `[[` when you are getting or setting a single element.
+[^colchetes]: Você pode se surpreender ao ver `[[` sendo usado para filtrar
+um vetor numérico. Voltaremos a isso na Seção \@ref(subset-single), mas, 
+resumidamente, acho que você deve sempre usar `[[` quando estiver obtendo ou 
+configurando um único elemento.
 
 ```{r}
 x <- c(1, 2, 3)
@@ -275,15 +279,31 @@ y[[3]] <- 4
 x
 ```
 
-Modifying `y` clearly didn't modify `x`. So what happened to the shared binding? While the value associated with `y` changed, the original object did not. Instead, R created a new object, `0xcd2`, a copy of `0x74b` with one value changed, then rebound `y` to that object.
+Modificar `y` claramente não modificou `x`. Então, o que aconteceu com a 
+vinculação compartilhada? Enquanto o valor associado a `y` mudou, o objeto 
+original não. No lugar disso, R criou um novo objeto, `0xcd2`, uma cópia de 
+`0x74b` com um valor alterado e depois revinculou `y` à esse objeto.
 
 ```{r, echo = FALSE, out.width = NULL}
 knitr::include_graphics("diagrams/name-value/binding-3.png")
 ```
 
-This behaviour is called __copy-on-modify__. Understanding it will radically improve your intuition about the performance of R code. A related way to describe this behaviour is to say that R objects are unchangeable, or __immutable__. However, I'll generally avoid that term because there are a couple of important exceptions to copy-on-modify that you'll learn about in Section \@ref(modify-in-place). 
+Esse comportamento é chamado __copiar-ao-modificar__. Entender isso melhorará 
+radicalmente sua intuição sobre o desempenho de um código em R.
+Uma maneira relacionada de descrever esse comportamento é dizer que os objetos 
+do R são invariáveis ou __imutáveis__.
+No entanto, geralmente evitarei esse termo, porque há algumas exceções 
+importantes à ação de copiar-ao-modificar que você aprenderá na 
+Seção \@ref(modify-in-place).
 
-When exploring copy-on-modify behaviour interactively, be aware that you'll get different results inside of RStudio. That's because the environment pane must make a reference to each object in order to display information about it. This distorts your interactive exploration but doesn't affect code inside of functions, and so doesn't affect performance during data analysis. For experimentation, I recommend either running R directly from the terminal, or using RMarkdown (like this book).
+Ao explorar, de maneira interativa, o comportamento de copiar-ao-modificar, 
+esteja ciente de que você obterá resultados diferentes dentro do RStudio. 
+Isso ocorre porque o painel desse ambiente deve fazer uma referência a cada 
+objeto para exibir informações sobre ele. 
+Isso distorce sua exploração interativa, mas não afeta o código dentro das 
+funções e, portanto, não afeta o desempenho durante a análise de dados. 
+Para experimentação, recomendo rodar o R diretamente do terminal ou usar o 
+RMarkdown (como este livro).
 
 ### `tracemem()`
 \indexc{tracemem()}
