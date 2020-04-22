@@ -1,46 +1,55 @@
-# (PART) Foundations {-}
+# (PART) Fundamentos {-}
 
-# Introduction {#foundations-intro  .unnumbered}
+# Introdução {#fundamentos-introdução  .unnumbered}
 
-To start your journey in mastering R, the following six chapters will help you learn the foundational components of R. I expect that you've already seen many of these pieces before, but you probably have not studied them deeply. To help check your existing knowledge, each chapter starts with a quiz; if you get all the questions right, feel free to skip to the next chapter!
+Para iniciar sua jornada no domínio do R, os seis capítulos a seguir ajudarão a 
+aprender os componentes fundamentais do R. 
+Acreito que você já tenha visto muitas dessas peças antes, mas, provavelmente, 
+não as estudou profundamente. Para ajudar a verificar o quanto você já sabe, 
+cada capítulo começa com um questionário.
+Se você acertar todas as perguntas, fique à vontade para pular para o próximo 
+capítulo!
 
-1.  Chapter \@ref(names-values) teaches you about an important distinction
-    that you probably haven't thought deeply about: the difference between an 
-    object and its name. Improving your mental model here will help you make 
-    better predictions about when R copies data and hence which basic 
-    operations are cheap and which are expensive.
-   
-1.  Chapter \@ref(vectors-chap) dives into the details of vectors, helping you 
-    learn how the different types of vector fit 
-    together. You'll also learn about attributes, which allow you to store 
-    arbitrary metadata, and form the basis for two of R's object-oriented 
-    programming toolkits.
+1.  O capítulo \@ref(names-values) ensina uma distinção importante sobre a qual 
+    você provavelmente ainda não pensou profundamente: a diferença entre um 
+    objeto e seu nome. Melhorar seu modelo mental ajudará a fazer melhores 
+    previsões sobre quando o R copia dados e, portanto, quais operações básicas 
+    são baratas e quais são caras.
+
+1.  O capítulo \@ref(vectors-chap) mergulha nos detalhes dos vetores, ajudando 
+    você a aprender como os diferentes tipos de vetores se encaixam. Você também 
+    aprenderá sobre atributos, que permitem armazenar metadados arbitrários e 
+    formam a base para dois dos kits de ferramentas de programação orientada a 
+    objetos do R.
+
+1.  O capítulo \@ref(subsetting) descreve como usar filtros para escrever 
+    códigos em R de maneira clara, concisa e eficiente. A compreensão dos 
+    componentes fundamentais permitirá que você resolva novos problemas 
+    combinando os blocos de construção de maneiras novas. 
+
+1.  O capítulo \@ref(control-flow) apresenta estruturas de controle de fluxo 
+    que permitem executar apenas o código em determinadas condições ou executar 
+    repetidamente o código com alterações nas entradas. Isso inclui as 
+    importantes construções `if` e `for`, além de ferramentas relacionadas 
+    como `switch()` e `while`.
     
-1.  Chapter \@ref(subsetting) describes how to use subsetting to write 
-    clear, concise, and efficient R code. Understanding the fundamental 
-    components will allow you to solve new problems by combining the building 
-    blocks in novel ways.
-
-1.  Chapter \@ref(control-flow) presents tools of control flow that allow you to
-    only execute code under certain conditions, or to repeatedly execute code 
-    with changing inputs. These include the important `if` and `for` constructs, as well as 
-    related tools like `switch()` and `while`.
-
-1.  Chapter \@ref(functions) deals with functions, the most important building 
-    blocks of R code. You'll learn exactly how they work, including the 
-    scoping rules, which govern how R looks up values from names. You'll also 
-    learn more of the details behind lazy evaluation, and how you can 
-    control what happens when you exit a function.
+1.  O capítulo \@ref(functions) trata de funções, os blocos de construção mais 
+    importantes do código em R. Você aprenderá exatamente como elas funcionam, 
+    incluindo as regras de escopo, que governam como o R pesquisa valores de 
+    nomes. Você também aprenda mais sobre os detalhes por trás da avaliação 
+    preguiçosa e como você pode controlar o que acontece quando 
+    você sai de uma função.
     
-1.  Chapter \@ref(environments) describes a data structure that is crucial for 
-    understanding how R works, but quite unimportant for data analysis: the 
-    environment. Environments are the data structure that binds 
-    names to values, and they power important tools like package namespaces. 
-    Unlike most programming languages, environments in R are "first class" 
-    which means that you can manipulate them just like other objects.
+1.  O capítulo \@ref(environments) descreve uma estrutura de dados que é crucial 
+    para entender como o R funciona, mas que não é importante para a análise de 
+    dados: o ambiente. Ambientes são a estrutura de dados que vincula nomes a 
+    valores, e eles fornecem ferramentas importantes, como o espaço de nomes 
+    (*namespace*) de um pacote. Diferentemente da maioria das linguagens de 
+    programação, os ambientes em R são "de primeira classe", o que significa que 
+    você pode manipulá-los como outros objetos.
 
-1.  Chapter \@ref(conditions) concludes the foundations of R with an 
-    exploration of "conditions", the umbrella term used to describe errors, 
-    warnings, and messages. You've certainly encountered these before, so in 
-    this chapter you learn how to signal them appropriately in your own 
-    functions, and how to handle them when signalled elsewhere.
+1.  O capítulo \@ref(conditions) conclui os fundamentos do R com uma exploração 
+    das "condições de exceção", o termo genérico usado para descrever erros, 
+    avisos e mensagens. Você certamente já os encontrou antes, portanto, neste 
+    capítulo, você aprenderá a sinalizá-los adequadamente em suas próprias 
+    funções e como lidar com eles quando sinalizados em outro lugar.
