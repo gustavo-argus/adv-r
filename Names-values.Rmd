@@ -308,7 +308,9 @@ RMarkdown (como este livro).
 ### `tracemem()`
 \indexc{tracemem()}
 
-You can see when an object gets copied with the help of `base::tracemem()`. Once you call that function with an object, you'll get the object's current address:
+Você pode ver quando um objeto é copiado com a ajuda de `base::tracemem()`. 
+Depois de chamar essa função juntamente com um objeto, você obterá o endereço 
+atual do objeto:
 
 ```{r trace1, eval = FALSE}
 x <- c(1, 2, 3)
@@ -316,7 +318,9 @@ cat(tracemem(x), "\n")
 #> <0x7f80c0e0ffc8> 
 ```
 
-From then on, whenever that object is copied, `tracemem()` will print a message telling you which object was copied, its new address, and the sequence of calls that led to the copy:
+A partir de então, sempre que esse objeto for copiado, `tracemem()` imprimirá 
+uma mensagem informando qual objeto foi copiado, seu novo endereço e a 
+sequência de chamadas que levaram à cópia:
 
 ```{r trace2, dependson = "trace1", eval = FALSE}
 y <- x
@@ -324,7 +328,10 @@ y[[3]] <- 4L
 #> tracemem[0x7f80c0e0ffc8 -> 0x7f80c4427f40]: 
 ```
 
-If you modify `y` again, it won't get copied. That's because the new object now only has a single name bound to it, so R applies modify-in-place optimisation. We'll come back to this in Section \@ref(modify-in-place).
+Se você modificar `y` novamente, ele não será copiado. Isso ocorre porque o 
+novo objeto agora tem apenas um único nome vinculado a ele, então o R aplica 
+o mecanismo de otimização modificar-no-local (*modify-in-place*). 
+Voltaremos a isso na Seção \@ref(modify-in-place).
 
 ```{r trace3, dependson = "trace2"}
 y[[3]] <- 5L
@@ -332,7 +339,7 @@ y[[3]] <- 5L
 untracemem(x)
 ```
 
-`untracemem()` is the opposite of `tracemem()`; it turns tracing off.
+`untracemem()` é o oposto de `tracemem()`; desativa o rastreamento.
 
 ### Function calls
 
