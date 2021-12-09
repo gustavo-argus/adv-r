@@ -341,9 +341,10 @@ untracemem(x)
 
 `untracemem()` é o oposto de `tracemem()`; desativa o rastreamento.
 
-### Function calls
+### Chamadas de função
 
-The same rules for copying also apply to function calls. Take this code:
+As mesmas regras de cópia se aplicam para as chamadas de função. Veja o seguinte 
+código:
 
 ```{r}
 f <- function(a) {
@@ -354,20 +355,21 @@ x <- c(1, 2, 3)
 cat(tracemem(x), "\n")
 
 z <- f(x)
-# there's no copy here!
+# nada foi copiado aqui!
 
 untracemem(x)
 ```
 
-While `f()` is running, the `a` inside the function points to the same value as the `x` does outside the function:
+Enquanto `f()` roda, o `a` dentro da função aponta para o mesmo valor que `x` aponta fora da função:
 
 ```{r, echo = FALSE, out.width = NULL}
 knitr::include_graphics("diagrams/name-value/binding-f1.png")
 ```
 
-You'll learn more about the conventions used in this diagram in Section \@ref(execution-environments). In brief: the function `f()` is depicted by the yellow object on the right. It has a formal argument, `a`, which becomes a binding (indicated by dotted black line) in the execution environment (the gray box) when the function is run.
-
-Once `f()` completes, `x` and `z` will point to the same object. `0x74b` never gets copied because it never gets modified. If `f()` did modify `x`, R would create a new copy, and then `z` would bind that object.
+Você aprenderá mas sobre as convenções usadas neste diagrama na Seção
+ \@ref(execution-environments). Em resumo: a função `f()` é representada pelo objeto em amarelo à direita. Ela possui um argumento formal,`a`, que se transforma em uma vinculação (indicada pela linha preta pontilhada) no ambiente de execução (o quadrado cinza) quando se roda a função.
+ 
+Uma vez que `f()` termina de rodar, `x` e `z` apontam para o mesmo objeto. `0x74b` não é copiado porque nunca foi modificado. Se `f()` de fato modificasse `x`, o R iria criar uma nova cópia e, então, `z` iria se vincular a esse objeto.
 
 ```{r, echo = FALSE, out.width = NULL}
 knitr::include_graphics("diagrams/name-value/binding-f2.png")
