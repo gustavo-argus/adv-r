@@ -56,7 +56,7 @@ de variáveis?
 
 ### Sumário {-}
 
-* A seção \@ref(o-básico-sobre-vinculação) apresenta a diferença entre
+* A seção \@ref(o-basico-sobre-vinculacao) apresenta a diferença entre
   nomes e valores e discute como `<-` faz a vinculação, ou referência,
   entre um nome e um valor.
 
@@ -101,7 +101,7 @@ _R internals_ [@r-ints]. O resto eu descobri lendo o código fonte em C,
 fazendo pequenos experimentos e fazendo perguntas no fórum R-devel. 
 Quaisquer erros são inteiramente meus.
 
-## O básico sobre Vinculação {#o-básico-sobre-vinculação}
+## O básico sobre Vinculação {#o-basico-sobre-vinculacao}
 \index{bindings|seealso {assignment}}
 \index{assignment}
 \indexc{obj\_addr()}
@@ -366,7 +366,7 @@ Enquanto `f()` roda, o `a` dentro da função aponta para o mesmo valor que `x` 
 knitr::include_graphics("diagrams/name-value/binding-f1.png")
 ```
 
-Você aprenderá mas sobre as convenções usadas neste diagrama na Seção
+Você aprenderá mais sobre as convenções usadas neste diagrama na Seção
  \@ref(execution-environments). Em resumo: a função `f()` é representada pelo objeto em amarelo à direita. Ela possui um argumento formal,`a`, que se transforma em uma vinculação (indicada pela linha preta pontilhada) no ambiente de execução (o quadrado cinza) quando se roda a função.
  
 Uma vez que `f()` termina de rodar, `x` e `z` apontam para o mesmo objeto. `0x74b` não é copiado porque nunca foi modificado. Se `f()` de fato modificasse `x`, o R iria criar uma nova cópia e, então, `z` iria se vincular a esse objeto.
@@ -375,23 +375,24 @@ Uma vez que `f()` termina de rodar, `x` e `z` apontam para o mesmo objeto. `0x74
 knitr::include_graphics("diagrams/name-value/binding-f2.png")
 ```
 
-### Lists {#list-references}
+### Listas {#list-references}
 \indexc{ref()}
 \index{lists}
 
-It's not just names (i.e. variables) that point to values; elements of lists do too. Consider this list, which is superficially very similar to the numeric vector above:
+Não apenas nomes (i.e. variáveis) são usados para vincular valores; elementos de listas o fazem também. Considere a lista abaixo que, na superfície, é bem similiar ao vetor numérico acima:
 
 ```{r list1}
 l1 <- list(1, 2, 3)
 ```
 
-This list is more complex because instead of storing the values itself, it stores references to them:
+Essa lista é mais complexa, pois no lugar de armazenar os próprios valores ela
+armazena referências à eles:
 
 ```{r, echo = FALSE, out.width = NULL}
 knitr::include_graphics("diagrams/name-value/list.png")
 ```
 
-This is particularly important when we modify a list:
+Isso é particularmente importante quando modificamos uma lista:
 
 ```{r list2, dependson = "list1"}
 l2 <- l1
@@ -409,7 +410,11 @@ l2[[3]] <- 4
 knitr::include_graphics("diagrams/name-value/l-modify-2.png")
 ```
 
-Like vectors, lists use copy-on-modify behaviour; the original list is left unchanged, and R creates a modified copy. This, however, is a __shallow__ copy: the list object and its bindings are copied, but the values pointed to by the bindings are not. The opposite of a shallow copy is a deep copy where the contents of every reference are copied. Prior to R 3.1.0, copies were always deep copies.
+Assim como vetores, listas usam o comportamento copiar-ao-modificar. 
+A lista original permanece a mesma e R cria uma cópia modificada.
+Entretando, essa é uma cópia __superficial__: o objeto dado pela lista e suas vinculações são copiadas, mas os valores referenciados por essas vinculações não são copiados. O oposto de uma cópia superficial é uma cópia profunda, onde os 
+conteúdos de cada referência são copiados. Antes da versão 3.1.0 do R, cópias eram
+sempre consideradas cópias profundas.
 
 To see values that are shared across lists, use `lobstr::ref()`. `ref()` prints the memory address of each object, along with a local ID so that you can easily cross-reference shared components.
 
